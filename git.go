@@ -66,8 +66,7 @@ func saveIssuesToDatabaseImplementation(url string, token string) {
 	}
 
 	if res.StatusCode != 200 {
-		x := fmt.Sprintf("Something went wrong, got a status code of %d, expected 200", res.StatusCode)
-		panic(x)
+		panic(fmt.Sprintf("Something went wrong, got a status code of %d, expected 200", res.StatusCode))
 	}
 
 	var issues []Issue
