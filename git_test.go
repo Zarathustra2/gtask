@@ -58,6 +58,7 @@ func Test_saveIssuesToDatabaseImplementation(t *testing.T) {
 	var count int
 	row := testDB.QueryRow("SELECT COUNT(*) FROM tasks")
 	err := row.Scan(&count)
+
 	if err != nil {
 		log.Fatal(err)
 	}
