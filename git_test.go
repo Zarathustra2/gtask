@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"testing"
 )
 
@@ -52,6 +53,9 @@ func Test_getToken(t *testing.T) {
 }
 
 func Test_saveIssuesToDatabaseImplementation(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
 	defer cleanDatabase()
 	saveIssuesToDatabaseImplementation("https://api.github.com/repos/golang/go/issues", "")
 
