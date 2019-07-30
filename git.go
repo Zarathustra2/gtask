@@ -48,7 +48,7 @@ func saveIssuesToDatabaseImplementation(url string, token string) {
 		panic(err)
 	}
 	if token != "" {
-		req.Header.Set("Authorization", "token " + token)
+		req.Header.Set("Authorization", "token "+token)
 	}
 
 	res, err := http.DefaultClient.Do(req)
@@ -82,14 +82,18 @@ func saveIssuesToDatabaseImplementation(url string, token string) {
 
 }
 
-// getToken returns the oauth github token saved in the database
-func getToken() (string, error) {
+func createTokenTable() {
 	githubTokenTable := `CREATE TABLE IF NOT EXISTS githubToken (
-					id integer primary key check(id = 0), 
+					id integer primary key check(id = 0),
 					token text not null
 				);`
 	_, err := db.Exec(githubTokenTable)
 	checkErrorQueries(err, githubTokenTable)
+}
+
+// getToken returns the oauth github token saved in the database
+func getToken() (string, error) {
+	createTokenTable()
 	row := db.QueryRow("SELECT token FROM githubToken;")
 	var githubToken GithubToken
 	switch err := row.Scan(&githubToken.token); err {
@@ -107,10 +111,10 @@ func getToken() (string, error) {
 func saveGitToken(token string) error {
 	lenToken := len(token)
 	if lenToken != 40 {
-		return errors.New(fmt.Sprintf("Github Token consists of 40 chars, your token was %d chars long", lenToken))
-
+		return fmt.Errorf("Github Token consists of 40 chars, your token was %d chars long", lenToken)
 	}
 
+	createTokenTable()
 	sqlStmt := fmt.Sprintf(`INSERT OR REPLACE INTO githubToken(id, token) VALUES ('%d', '%s');`, 0, token)
 	_, err := db.Exec(sqlStmt)
 	checkErrorQueries(err, sqlStmt)
