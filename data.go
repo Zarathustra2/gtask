@@ -37,18 +37,6 @@ type Category struct {
 	Name string
 }
 
-//func (task *Task) String() string {
-//
-//	desc := task.Description
-//	id := task.Id
-//	untilString := timeUntil(task.Until)
-//	checkBox := task.getCheckBox()
-//	result := fmt.Sprintf("%s | %s | %s | %s | %s", checkBox, Bold(id).String(), desc, untilString, task.CategoryName)
-//
-//	return result
-//
-//}
-
 func (task *Task) getCheckBox() string {
 
 	checkBox := ""
@@ -176,7 +164,7 @@ func insertTask(t *Task) *Task {
 	}
 
 	sqlStmt := "INSERT OR IGNORE INTO tasks (description, created, until, category_id) VALUES ($1, $2, $3, $4)"
-	res, err := db.Exec(sqlStmt,t.Description, t.Created, t.Until, t.CategoryId)
+	res, err := db.Exec(sqlStmt, t.Description, t.Created, t.Until, t.CategoryId)
 	checkErrorQueries(err, sqlStmt)
 
 	// Update the Id of Task
