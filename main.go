@@ -3,9 +3,10 @@ package main
 import (
 	"database/sql"
 	"flag"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"strings"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // declare our flags
@@ -47,7 +48,7 @@ func interpreter() {
 
 	case categoryId > 0:
 		if len(idsLists) == 0 {
-			panic("You need to provide IDs to update the category with the ids flag")
+			log.Fatalln("You need to provide IDs to update the category with the ids flag")
 			return
 		}
 		UpdateCategory(categoryId, idsLists)
@@ -57,7 +58,7 @@ func interpreter() {
 
 	case updateIds:
 		if len(idsLists) == 0 {
-			panic("You need to provide IDs to update done tasks with the ids flag")
+			log.Fatalln("You need to provide IDs to update done tasks with the ids flag")
 			return
 		}
 		TaskDone(idsLists)
@@ -67,7 +68,7 @@ func interpreter() {
 
 	case deleteIds:
 		if len(idsLists) == 0 {
-			panic("You need to provide IDs to delete with the ids flag")
+			log.Fatalln("You need to provide IDs to delete with the ids flag")
 			return
 		}
 		DeleteTasksById(idsLists)
