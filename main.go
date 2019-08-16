@@ -143,7 +143,7 @@ func init() {
 	flag.BoolVar(&updateIds, "done", false, "")
 	flag.BoolVar(&deleteIds, "del", false, "")
 
-	flag.BoolVar(&table, "table", false, "")
+	flag.BoolVar(&table, "table", false, "Show tasks as table")
 
 	flag.Var(&idsLists, "ids", "IDs of Tasks")
 
